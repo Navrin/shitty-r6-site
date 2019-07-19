@@ -265,7 +265,7 @@ const SpinToWin = (props: { defaultState: typeof defaultState }) => {
                     onUpdate={e =>
                         setState({
                             ...state,
-                            defender: e,
+                            defender: [...e, ...state.defender],
                         })
                     }
                     side="defender"
@@ -276,7 +276,7 @@ const SpinToWin = (props: { defaultState: typeof defaultState }) => {
                     onUpdate={e =>
                         setState({
                             ...state,
-                            attacker: e,
+                            attacker: [...e, ...state.attacker],
                         })
                     }
                     side="attacker"

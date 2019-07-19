@@ -210,13 +210,14 @@ const defaultState = {
 const SpinToWin = (props: { defaultState: typeof defaultState }) => {
     const main = localStorage.getItem("main");
     const saved = main ? JSON.parse(main) : false;
+    console.log(props);
 
     const keepHidden = localStorage.getItem("inputshidden") === "true";
 
+    const isEmptyState = deepEqual(props.defaultState, defaultState);
+
     const [state, setState] = useState(
-        (deepEqual(props.defaultState, defaultState) && props.defaultState) ||
-            saved ||
-            defaultState,
+        isEmptyState ? saved : props.defaultState,
     );
 
     const [hidden, setHidden] = useState(keepHidden);
@@ -238,19 +239,18 @@ const SpinToWin = (props: { defaultState: typeof defaultState }) => {
         return setRand({ attackers, defenders });
     };
 
-    useEffect(() => {
+    const saveIt = () => {
         localStorage.setItem("main", JSON.stringify(state));
         localStorage.setItem("inputshidden", hidden.toString());
-
         async function wrap() {
             const gziped = await gzip(JSON.stringify(state));
-
             const smush = encode(gziped);
             window.history.pushState("", "", `/?state=${smush}`);
         }
-
         wrap();
-    });
+    };
+    saveIt();
+    useEffect(saveIt);
 
     return (
         <SpinBase>

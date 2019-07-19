@@ -20,33 +20,27 @@ const AppWrap = styled.div`
 const App: React.FC = () => {
     const [state, setState] = useState({ attacker: [], defender: [] });
     const url = qs.parse(window.location.search);
-    const [wait, setWait] = useState(false);
+    const [wait, setWait] = useState(true);
     const [didParse, setDidParse] = useState(false);
-
-    if (
-        !wait &&
-        !didParse &&
-        url.state &&
-        (state.defender.length <= 0 || state.attacker.length <= 0)
-    ) {
-        setWait(true);
-    }
 
     async function wrap() {
         if (DID_RUN) {
             return;
         }
         if (url.state) {
+            console.log("urlis");
             const debasedState = decode(url.state as string);
             const gunzipped = await ungzip(debasedState);
+            DID_RUN = true;
             setState(JSON.parse(gunzipped.toString()));
         }
-        setDidParse(true);
-        setWait(false);
         DID_RUN = true;
     }
     wrap();
-    return wait ? (
+
+    console.log("will be ", state);
+
+    return !DID_RUN ? (
         <div />
     ) : (
         <AppWrap>

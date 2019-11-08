@@ -12,6 +12,8 @@
     "@types/styled-components": "^4.1.16",
     "@types/urlsafe-base64": "^1.0.28",
     "lodash": "^4.17.11",
+    "mobx": "^5.13.0",
+    "mobx-react": "^6.1.1",
     "node-gzip": "^1.1.2",
     "query-string": "^6.8.1",
     "react": "^16.8.6",

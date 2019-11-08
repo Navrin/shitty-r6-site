@@ -5,6 +5,7 @@ import deepEqual from "lodash/isEqual";
 import { SortButton, SEIGE_COLOURS } from "./TeamSorter";
 import { encode } from "urlsafe-base64";
 const { gzip } = require("node-gzip");
+import { Strat } from "./StratStore";
 
 const SpinSectionBase = styled.div`
     display: grid;
@@ -96,28 +97,12 @@ const SpinAreaDesc = styled.span`
     font-size: 1.3rem;
 `;
 
-type Strat = {
-    name: string;
-    description: string;
-};
-
 const SpinSection = (props: {
     side: "defender" | "attacker";
     onUpdate: (p: Strat[]) => void;
     hideInputs: boolean;
     rand: Strat;
 }) => {
-    const [expand, setExpand] = useState(false);
-    const [strats, setStrats] = useState<Strat[]>([]);
-    const [strat, setStrat] = useState<Strat>({ name: "", description: "" });
-
-    const onSaveStrat = () => {
-        const newStrats = [...strats, strat];
-        props.onUpdate(newStrats);
-        setStrats(newStrats);
-        setStrat({ name: "", description: "" });
-    };
-
     return (
         <SpinSectionBase>
             <SpinSectionHeader color={SEIGE_COLOURS[props.side]}>
